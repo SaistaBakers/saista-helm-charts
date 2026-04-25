@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: saista-bakers
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: YOUR_GITHUB_REPO_URL          # e.g. https://github.com/your-org/saista-helm-charts
+    targetRevision: main                   # branch / tag / commit SHA
+    path: helm                             # path to the umbrella chart inside the repo
+
+    helm:
+      releaseName: saista-bakers
+      valueFiles:
+        - values.yaml                      # base values (always applied)
+        # - values-dev.yaml               # uncomment for dev overrides
+        # - values-prod.yaml              # uncomment for prod overrides
+
+  destination:
+    server: https://kubernetes.default.svc # in-cluster; change for remote clusters
+    namespace: dev
+
+  syncPolicy:
+    automated:
+      prune: true      # delete resources removed from the chart
+      selfHeal: true   # revert out-of-band changes in the cluster
+    syncOptions:
+      - CreateNamespace=true   # creates the `dev` namespace if it doesn't exist
