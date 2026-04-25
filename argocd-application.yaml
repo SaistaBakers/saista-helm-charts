@@ -7,7 +7,7 @@ spec:
   project: default
 
   source:
-    repoURL: YOUR_GITHUB_REPO_URL          # e.g. https://github.com/your-org/saista-helm-charts
+    repoURL: https://github.com/SaistaBakers/saista-helm-charts
     targetRevision: main                   # branch / tag / commit SHA
     path: helm                             # path to the umbrella chart inside the repo
 
