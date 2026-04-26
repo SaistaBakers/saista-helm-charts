@@ -15,7 +15,7 @@ spec:
       releaseName: saista-bakers
       valueFiles:
         - values.yaml                      # base values (always applied)
-        # - values-dev.yaml               # uncomment for dev overrides
+        - values-dev.yaml               # uncomment for dev overrides
         # - values-prod.yaml              # uncomment for prod overrides
 
   destination:
