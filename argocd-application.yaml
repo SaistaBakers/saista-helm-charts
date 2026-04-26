@@ -8,7 +8,7 @@ spec:
 
   source:
     repoURL: https://github.com/SaistaBakers/saista-helm-charts
-    targetRevision: main                   # branch / tag / commit SHA
+    targetRevision: HEAD               # branch / tag / commit SHA
     path: helm                             # path to the umbrella chart inside the repo
 
     helm:
