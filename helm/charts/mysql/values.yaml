@@ -7,6 +7,8 @@ storage:
   size: 5Gi
   nfsServer: "172.31.12.241"
   nfsPath: "/exports/saista/mysql"
+  createStorageClass: true
 gateway:
   name: saista-gateway
   controllerName: kgateway.dev/kgateway
+  createClass: true

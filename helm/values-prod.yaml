@@ -2,6 +2,13 @@ global:
   namespace: prod
   imageTag: stable
 
+mysql:
+  gateway:
+    name: saista-gateway-prod       # separate Gateway for prod namespace
+    createClass: false              # GatewayClass already exists from dev install; don't recreate
+  storage:
+    createStorageClass: false       # StorageClass already exists from dev install; don't recreate
+
 user-service:
   replicaCount: 2
 

@@ -1,0 +1,339 @@
+<mxfile host="app.diagrams.net" modified="2026-04-25" agent="Claude" version="21.1.2">
+  <diagram name="Saista Bakers — DevOps Architecture" id="sb-devops-v1">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="1400" math="0" shadow="1">
+      <root>
+        <mxCell id="0" /><mxCell id="1" parent="0" />
+
+        <!-- ════════ TITLE ════════ -->
+        <mxCell id="title" value="&lt;b style=&apos;font-size:17px;letter-spacing:1px;&apos;&gt;SAISTA BAKERS — DEVOPS / KUBERNETES ARCHITECTURE&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:11px;&apos;&gt;saistabakers.com  ·  Kubernetes  ·  kGateway  ·  NFS  ·  ArgoCD  ·  Prometheus  ·  Grafana&lt;/span&gt;"
+          style="text;html=1;fillColor=#0f172a;strokeColor=#0f172a;fontColor=#f8fafc;align=center;verticalAlign=middle;rounded=1;fontSize=14;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="20" y="10" width="1860" height="55" as="geometry" /></mxCell>
+
+        <!-- ════════ EXTERNAL ZONE ════════ -->
+        <mxCell id="z_ext" value="" style="rounded=1;fillColor=#dbeafe;strokeColor=#3b82f6;opacity=30;pointerEvents=0;" vertex="1" parent="1"><mxGeometry x="20" y="80" width="650" height="170" as="geometry" /></mxCell>
+        <mxCell id="z_ext_lbl" value="EXTERNAL / INTERNET" style="text;html=1;fillColor=none;strokeColor=none;fontStyle=1;fontSize=9;fontColor=#1d4ed8;align=left;" vertex="1" parent="1"><mxGeometry x="30" y="84" width="150" height="18" as="geometry" /></mxCell>
+
+        <!-- Client -->
+        <mxCell id="client" value="&lt;b&gt;Client&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;Browser / Mobile&lt;/span&gt;"
+          style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;fillColor=#bfdbfe;strokeColor=#1d4ed8;fontSize=11;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="45" y="100" width="110" height="110" as="geometry" /></mxCell>
+
+        <!-- Hostinger DNS -->
+        <mxCell id="dns" value="Hostinger DNS"
+          style="swimlane;fillColor=#1e40af;strokeColor=#1e3a8a;fontColor=#ffffff;fontSize=12;fontStyle=1;startSize=32;rounded=1;arcSize=8;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="210" y="103" width="170" height="100" as="geometry" /></mxCell>
+        <mxCell id="dns_body" value="&lt;span style=&apos;font-size:10px;line-height:1.6;&apos;&gt;saistabakers.com&lt;br&gt;A Record → HA Proxy IP&lt;br&gt;TTL: 300s&lt;/span&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="dns"><mxGeometry x="0" y="32" width="170" height="68" as="geometry" /></mxCell>
+
+        <!-- HA Proxy LB -->
+        <mxCell id="lb" value="HA Proxy Load Balancer"
+          style="swimlane;fillColor=#7e22ce;strokeColor=#581c87;fontColor=#ffffff;fontSize=12;fontStyle=1;startSize=32;rounded=1;arcSize=8;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="440" y="103" width="200" height="100" as="geometry" /></mxCell>
+        <mxCell id="lb_body" value="&lt;span style=&apos;font-size:10px;line-height:1.6;&apos;&gt;Binds IP · Port 80/443&lt;br&gt;Routes to Worker Nodes&lt;br&gt;Health check: /health&lt;/span&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="lb"><mxGeometry x="0" y="32" width="200" height="68" as="geometry" /></mxCell>
+
+        <!-- ════════ NFS SERVER ════════ -->
+        <mxCell id="z_nfs" value="" style="rounded=1;fillColor=#fef9c3;strokeColor=#ca8a04;opacity=40;pointerEvents=0;" vertex="1" parent="1"><mxGeometry x="700" y="80" width="330" height="170" as="geometry" /></mxCell>
+        <mxCell id="z_nfs_lbl" value="NFS STORAGE SERVER" style="text;html=1;fillColor=none;strokeColor=none;fontStyle=1;fontSize=9;fontColor=#92400e;align=left;" vertex="1" parent="1"><mxGeometry x="710" y="84" width="160" height="18" as="geometry" /></mxCell>
+
+        <mxCell id="nfs" value="NFS Server"
+          style="swimlane;fillColor=#92400e;strokeColor=#78350f;fontColor=#ffffff;fontSize=12;fontStyle=1;startSize=32;rounded=1;arcSize=8;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="715" y="103" width="300" height="130" as="geometry" /></mxCell>
+        <mxCell id="nfs_body" value="&lt;span style=&apos;font-size:10px;line-height:1.7;&apos;&gt;IP: &lt;b&gt;172.31.12.241&lt;/b&gt;&lt;br&gt;Export: &lt;b&gt;/exports/saista/mysql&lt;/b&gt;&lt;br&gt;Protocol: NFS v4&lt;br&gt;Capacity: &lt;b&gt;5Gi&lt;/b&gt; (MySQL data)&lt;/span&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="nfs"><mxGeometry x="0" y="32" width="300" height="98" as="geometry" /></mxCell>
+
+        <!-- GHCR (Image Registry) -->
+        <mxCell id="z_ghcr_ext" value="" style="rounded=1;fillColor=#f3f4f6;strokeColor=#6b7280;opacity=40;pointerEvents=0;" vertex="1" parent="1"><mxGeometry x="1060" y="80" width="290" height="170" as="geometry" /></mxCell>
+        <mxCell id="z_ghcr_lbl" value="IMAGE REGISTRY (EXTERNAL)" style="text;html=1;fillColor=none;strokeColor=none;fontStyle=1;fontSize=9;fontColor=#374151;align=left;" vertex="1" parent="1"><mxGeometry x="1070" y="84" width="180" height="18" as="geometry" /></mxCell>
+        <mxCell id="ghcr_ext" value="GHCR — GitHub Container Registry"
+          style="swimlane;fillColor=#1f2937;strokeColor=#111827;fontColor=#f9fafb;fontSize=12;fontStyle=1;startSize=32;rounded=1;arcSize=8;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="1075" y="103" width="260" height="130" as="geometry" /></mxCell>
+        <mxCell id="ghcr_ext_logo" value="" style="shape=mxgraph.logos.github;html=1;fillColor=#ffffff;strokeColor=none;pointerEvents=0;" vertex="1" parent="ghcr_ext"><mxGeometry x="8" y="6" width="20" height="20" as="geometry" /></mxCell>
+        <mxCell id="ghcr_ext_body" value="&lt;span style=&apos;font-size:10px;line-height:1.7;&apos;&gt;ghcr.io/saistabakers/*&lt;br&gt;user-service · order-service&lt;br&gt;payment-service · frontend&lt;br&gt;Pushed by GitHub Actions CI&lt;/span&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="ghcr_ext"><mxGeometry x="0" y="32" width="260" height="98" as="geometry" /></mxCell>
+
+        <!-- ════════ KUBERNETES CLUSTER ════════ -->
+        <mxCell id="k8s_cluster" value="&lt;b&gt;Kubernetes Cluster&lt;/b&gt;"
+          style="swimlane;fillColor=none;strokeColor=#326ce5;strokeWidth=3;fontColor=#326ce5;fontSize=15;fontStyle=1;startSize=38;rounded=1;arcSize=3;dashed=1;dashPattern=8 4;"
+          vertex="1" parent="1"><mxGeometry x="20" y="270" width="1360" height="870" as="geometry" /></mxCell>
+        <mxCell id="k8s_cluster_logo" value="" style="shape=mxgraph.logos.kubernetes;html=1;pointerEvents=0;" vertex="1" parent="k8s_cluster"><mxGeometry x="8" y="6" width="26" height="26" as="geometry" /></mxCell>
+
+        <!-- ════════ GATEWAY NAMESPACE ════════ -->
+        <mxCell id="gw_ns" value="Namespace: dev (Gateway)"
+          style="swimlane;fillColor=#4c1d95;strokeColor=#2e1065;fontColor=#ffffff;fontSize=13;fontStyle=1;startSize=36;rounded=1;arcSize=5;shadow=1;"
+          vertex="1" parent="k8s_cluster"><mxGeometry x="30" y="50" width="850" height="120" as="geometry" /></mxCell>
+
+        <!-- kGateway Class -->
+        <mxCell id="kgw_class" value="&lt;b&gt;GatewayClass&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;kgateway.dev/kgateway&lt;/span&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#7c3aed;strokeColor=#5b21b6;fontColor=#ffffff;fontSize=11;shadow=1;"
+          vertex="1" parent="gw_ns"><mxGeometry x="15" y="45" width="240" height="60" as="geometry" /></mxCell>
+
+        <!-- saista-gateway -->
+        <mxCell id="sgw" value="&lt;b&gt;Gateway: saista-gateway&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;Listener: HTTP :80  ·  from: All namespaces&lt;br&gt;Data Plane: Envoy Proxy (auto-provisioned)&lt;/span&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6d28d9;strokeColor=#4c1d95;fontColor=#ffffff;fontSize=11;shadow=1;"
+          vertex="1" parent="gw_ns"><mxGeometry x="290" y="42" width="540" height="67" as="geometry" /></mxCell>
+
+        <!-- HTTPRoutes note -->
+        <mxCell id="httproute_note" value="&lt;b&gt;HTTPRoutes:&lt;/b&gt;  / → frontend:80  ·  /api/users → user-service:5001  ·  /api/orders → order-service:5002  ·  /api/payment → payment-service:5003"
+          style="text;html=1;fillColor=#ede9fe;strokeColor=#7c3aed;fontSize=10;rounded=1;align=center;"
+          vertex="1" parent="k8s_cluster"><mxGeometry x="30" y="178" width="850" height="30" as="geometry" /></mxCell>
+
+        <!-- ════════ WORKER NODE 1 ════════ -->
+        <mxCell id="node1" value="Worker Node 1"
+          style="swimlane;fillColor=#0c4a6e;strokeColor=#082f49;fontColor=#ffffff;fontSize=13;fontStyle=1;startSize=36;rounded=1;arcSize=4;shadow=1;"
+          vertex="1" parent="k8s_cluster"><mxGeometry x="30" y="225" width="590" height="490" as="geometry" /></mxCell>
+
+        <!-- Envoy Data Plane Node 1 -->
+        <mxCell id="envoy1" value="&lt;b&gt;Data Plane — Envoy Proxy&lt;/b&gt;  (auto-provisioned by kGateway)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e40af;strokeColor=#1e3a8a;fontColor=#ffffff;fontSize=11;shadow=1;"
+          vertex="1" parent="node1"><mxGeometry x="15" y="45" width="555" height="45" as="geometry" /></mxCell>
+
+        <!-- Frontend pods -->
+        <mxCell id="fe_pods" value="⚛️ frontend"
+          style="swimlane;fillColor=#0369a1;strokeColor=#0c4a6e;fontColor=#ffffff;fontSize=12;fontStyle=1;startSize=32;rounded=1;arcSize=6;shadow=1;"
+          vertex="1" parent="node1"><mxGeometry x="15" y="105" width="255" height="155" as="geometry" /></mxCell>
+        <mxCell id="fe_logo_n" value="" style="shape=mxgraph.logos.react;html=1;pointerEvents=0;" vertex="1" parent="fe_pods"><mxGeometry x="8" y="6" width="20" height="20" as="geometry" /></mxCell>
+        <mxCell id="fe_pods_body" value="&lt;span style=&apos;font-size:10px;line-height:1.7;&apos;&gt;React + Nginx&lt;br&gt;Port: &lt;b&gt;80&lt;/b&gt;  ·  Replicas: &lt;b&gt;2&lt;/b&gt;&lt;br&gt;CPU: 50m-300m&lt;br&gt;MEM: 64Mi-128Mi&lt;br&gt;Image: asadoblivion/saista-frontend&lt;/span&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="fe_pods"><mxGeometry x="0" y="32" width="255" height="123" as="geometry" /></mxCell>
+
+        <!-- User Service pods -->
+        <mxCell id="us_pods" value="👤 user-service"
+          style="swimlane;fillColor=#166534;strokeColor=#14532d;fontColor=#ffffff;fontSize=12;fontStyle=1;startSize=32;rounded=1;arcSize=6;shadow=1;"
+          vertex="1" parent="node1"><mxGeometry x="295" y="105" width="280" height="155" as="geometry" /></mxCell>
+        <mxCell id="us_logo_n" value="" style="shape=mxgraph.logos.python;html=1;pointerEvents=0;" vertex="1" parent="us_pods"><mxGeometry x="8" y="6" width="20" height="20" as="geometry" /></mxCell>
+        <mxCell id="us_pods_body" value="&lt;span style=&apos;font-size:10px;line-height:1.7;&apos;&gt;FastAPI (Python)&lt;br&gt;Port: &lt;b&gt;5001&lt;/b&gt;  ·  Replicas: &lt;b&gt;2&lt;/b&gt;&lt;br&gt;CPU: 100m-500m&lt;br&gt;MEM: 128Mi-256Mi&lt;br&gt;Image: asadoblivion/saista-user-service&lt;/span&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="us_pods"><mxGeometry x="0" y="32" width="280" height="123" as="geometry" /></mxCell>
+
+        <!-- ConfigMap + Secret Node 1 -->
+        <mxCell id="cm1" value="&lt;b&gt;ConfigMap&lt;/b&gt; (user-service-config)  ·  &lt;b&gt;Secret&lt;/b&gt; (user-service-secrets)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e3a5f;strokeColor=#0f2744;fontColor=#93c5fd;fontSize=10;shadow=0;"
+          vertex="1" parent="node1"><mxGeometry x="15" y="273" width="555" height="35" as="geometry" /></mxCell>
+
+        <!-- Service (ClusterIP) Node 1 -->
+        <mxCell id="svc1" value="&lt;b&gt;ClusterIP Services:&lt;/b&gt; frontend:80 · user-service:5001  ·  &lt;b&gt;Liveness + Readiness Probes:&lt;/b&gt; GET /health"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#164e63;strokeColor=#0e7490;fontColor=#a5f3fc;fontSize=10;shadow=0;"
+          vertex="1" parent="node1"><mxGeometry x="15" y="320" width="555" height="35" as="geometry" /></mxCell>
+
+        <!-- Kubelet Node 1 -->
+        <mxCell id="kubelet1" value="&lt;b&gt;kubelet&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;Watches API Server&lt;br&gt;Manages Pods on Node&lt;/span&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#155e75;strokeColor=#0e7490;fontColor=#ffffff;fontSize=11;shadow=1;"
+          vertex="1" parent="node1"><mxGeometry x="15" y="375" width="180" height="85" as="geometry" /></mxCell>
+
+        <!-- cAdvisor Node 1 -->
+        <mxCell id="cadv1" value="&lt;b&gt;cAdvisor&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;Container metrics&lt;br&gt;CPU · MEM · Network&lt;/span&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0e7490;strokeColor=#155e75;fontColor=#ffffff;fontSize=11;shadow=1;"
+          vertex="1" parent="node1"><mxGeometry x="210" y="375" width="180" height="85" as="geometry" /></mxCell>
+
+        <!-- Node Scoped PVC -->
+        <mxCell id="pvc_n1" value="&lt;b&gt;PVC:&lt;/b&gt; mysql-data-mysql-0 (5Gi · nfs-storage)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1c1917;strokeColor=#78350f;fontColor=#fbbf24;fontSize=10;shadow=0;"
+          vertex="1" parent="node1"><mxGeometry x="15" y="385" width="555" height="35" as="geometry" /></mxCell>
+
+        <!-- ════════ WORKER NODE 2 ════════ -->
+        <mxCell id="node2" value="Worker Node 2"
+          style="swimlane;fillColor=#7c2d12;strokeColor=#431407;fontColor=#ffffff;fontSize=13;fontStyle=1;startSize=36;rounded=1;arcSize=4;shadow=1;"
+          vertex="1" parent="k8s_cluster"><mxGeometry x="650" y="225" width="670" height="490" as="geometry" /></mxCell>
+
+        <!-- Envoy Data Plane Node 2 -->
+        <mxCell id="envoy2" value="&lt;b&gt;Data Plane — Envoy Proxy&lt;/b&gt;  (auto-provisioned by kGateway)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e40af;strokeColor=#1e3a8a;fontColor=#ffffff;fontSize=11;shadow=1;"
+          vertex="1" parent="node2"><mxGeometry x="15" y="45" width="635" height="45" as="geometry" /></mxCell>
+
+        <!-- Order Service pods -->
+        <mxCell id="os_pods" value="📦 order-service"
+          style="swimlane;fillColor=#9a3412;strokeColor=#7c2d12;fontColor=#ffffff;fontSize=12;fontStyle=1;startSize=32;rounded=1;arcSize=6;shadow=1;"
+          vertex="1" parent="node2"><mxGeometry x="15" y="105" width="295" height="155" as="geometry" /></mxCell>
+        <mxCell id="os_logo_n" value="" style="shape=mxgraph.logos.python;html=1;pointerEvents=0;" vertex="1" parent="os_pods"><mxGeometry x="8" y="6" width="20" height="20" as="geometry" /></mxCell>
+        <mxCell id="os_pods_body" value="&lt;span style=&apos;font-size:10px;line-height:1.7;&apos;&gt;FastAPI (Python)&lt;br&gt;Port: &lt;b&gt;5002&lt;/b&gt;  ·  Replicas: &lt;b&gt;2&lt;/b&gt;&lt;br&gt;CPU: 100m-500m&lt;br&gt;MEM: 128Mi-256Mi&lt;br&gt;Image: asadoblivion/saista-order-service&lt;/span&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="os_pods"><mxGeometry x="0" y="32" width="295" height="123" as="geometry" /></mxCell>
+
+        <!-- Payment Service pods -->
+        <mxCell id="ps_pods" value="💳 payment-service"
+          style="swimlane;fillColor=#581c87;strokeColor=#3b0764;fontColor=#ffffff;fontSize=12;fontStyle=1;startSize=32;rounded=1;arcSize=6;shadow=1;"
+          vertex="1" parent="node2"><mxGeometry x="330" y="105" width="325" height="155" as="geometry" /></mxCell>
+        <mxCell id="ps_logo_n" value="" style="shape=mxgraph.logos.python;html=1;pointerEvents=0;" vertex="1" parent="ps_pods"><mxGeometry x="8" y="6" width="20" height="20" as="geometry" /></mxCell>
+        <mxCell id="ps_pods_body" value="&lt;span style=&apos;font-size:10px;line-height:1.7;&apos;&gt;FastAPI (Python)&lt;br&gt;Port: &lt;b&gt;5003&lt;/b&gt;  ·  Replicas: &lt;b&gt;2&lt;/b&gt;&lt;br&gt;CPU: 100m-500m&lt;br&gt;MEM: 128Mi-256Mi&lt;br&gt;Image: asadoblivion/saista-payment-service&lt;/span&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="ps_pods"><mxGeometry x="0" y="32" width="325" height="123" as="geometry" /></mxCell>
+
+        <!-- ConfigMap + Secret Node 2 -->
+        <mxCell id="cm2" value="&lt;b&gt;ConfigMaps&lt;/b&gt; (order-config · payment-config)  ·  &lt;b&gt;Secrets&lt;/b&gt; (order-secrets · payment-secrets)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3b1a05;strokeColor=#92400e;fontColor=#fcd34d;fontSize=10;shadow=0;"
+          vertex="1" parent="node2"><mxGeometry x="15" y="273" width="635" height="35" as="geometry" /></mxCell>
+
+        <!-- Service Node 2 -->
+        <mxCell id="svc2" value="&lt;b&gt;ClusterIP Services:&lt;/b&gt; order-service:5002 · payment-service:5003  ·  &lt;b&gt;Liveness + Readiness Probes:&lt;/b&gt; GET /health"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#450a0a;strokeColor=#b91c1c;fontColor=#fca5a5;fontSize=10;shadow=0;"
+          vertex="1" parent="node2"><mxGeometry x="15" y="320" width="635" height="35" as="geometry" /></mxCell>
+
+        <!-- Kubelet Node 2 -->
+        <mxCell id="kubelet2" value="&lt;b&gt;kubelet&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;Watches API Server&lt;br&gt;Manages Pods on Node&lt;/span&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#7c2d12;strokeColor=#9a3412;fontColor=#ffffff;fontSize=11;shadow=1;"
+          vertex="1" parent="node2"><mxGeometry x="15" y="375" width="185" height="85" as="geometry" /></mxCell>
+
+        <!-- cAdvisor Node 2 -->
+        <mxCell id="cadv2" value="&lt;b&gt;cAdvisor&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;Container metrics&lt;br&gt;CPU · MEM · Network&lt;/span&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9a3412;strokeColor=#7c2d12;fontColor=#ffffff;fontSize=11;shadow=1;"
+          vertex="1" parent="node2"><mxGeometry x="215" y="375" width="185" height="85" as="geometry" /></mxCell>
+
+        <!-- Node Scoped PVC Node 2 -->
+        <mxCell id="pvc_n2" value="&lt;b&gt;PVC:&lt;/b&gt; mysql-data-mysql-0 (5Gi · StorageClass: nfs-storage)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1c1917;strokeColor=#78350f;fontColor=#fbbf24;fontSize=10;shadow=0;"
+          vertex="1" parent="node2"><mxGeometry x="15" y="385" width="635" height="35" as="geometry" /></mxCell>
+
+        <!-- ════════ SHARED DATABASE LAYER ════════ -->
+        <mxCell id="db_layer" value="Database Layer — Shared across all services"
+          style="swimlane;fillColor=#78350f;strokeColor=#92400e;fontColor=#fde68a;fontSize=13;fontStyle=1;startSize=36;rounded=1;arcSize=4;shadow=1;"
+          vertex="1" parent="k8s_cluster"><mxGeometry x="200" y="735" width="950" height="120" as="geometry" /></mxCell>
+
+        <!-- MySQL StatefulSet -->
+        <mxCell id="mysql_pod" value="MySQL StatefulSet"
+          style="swimlane;fillColor=#f57f17;strokeColor=#e65100;fontColor=#ffffff;fontSize=12;fontStyle=1;startSize=32;rounded=1;arcSize=6;shadow=1;"
+          vertex="1" parent="db_layer"><mxGeometry x="15" y="45" width="450" height="60" as="geometry" /></mxCell>
+        <mxCell id="mysql_logo_n" value="" style="shape=mxgraph.logos.mysql_wordmark;html=1;pointerEvents=0;" vertex="1" parent="mysql_pod"><mxGeometry x="8" y="6" width="50" height="20" as="geometry" /></mxCell>
+        <mxCell id="mysql_pod_body" value="&lt;span style=&apos;font-size:10px;&apos;&gt;mysql:8.0  ·  DB: saista_bakers  ·  Port: 3306  ·  Replica: 1  ·  Headless Service: mysql&lt;/span&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="mysql_pod"><mxGeometry x="0" y="32" width="450" height="28" as="geometry" /></mxCell>
+
+        <!-- DB Migration Job -->
+        <mxCell id="migrate_job" value="&lt;b&gt;Job: db-migrate&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;Runs on startup · Creates tables · Seeds data&lt;br&gt;backoffLimit: 5 · ttlSecondsAfterFinished: 300&lt;/span&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#451a03;strokeColor=#f59e0b;fontColor=#fde68a;fontSize=11;shadow=1;"
+          vertex="1" parent="db_layer"><mxGeometry x="490" y="45" width="440" height="60" as="geometry" /></mxCell>
+
+        <!-- ════════ STORAGE LAYER ════════ -->
+        <mxCell id="z_storage" value="" style="rounded=1;fillColor=#fffbeb;strokeColor=#f59e0b;opacity=40;pointerEvents=0;" vertex="1" parent="k8s_cluster"><mxGeometry x="30" y="875" width="1300" height="120" as="geometry" /></mxCell>
+        <mxCell id="z_storage_lbl" value="STORAGE LAYER" style="text;html=1;fillColor=none;strokeColor=none;fontStyle=1;fontSize=9;fontColor=#92400e;align=left;" vertex="1" parent="k8s_cluster"><mxGeometry x="40" y="879" width="120" height="18" as="geometry" /></mxCell>
+
+        <!-- PVC -->
+        <mxCell id="pvc_icon" value="&lt;b&gt;PVC&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;mysql-data-mysql-0&lt;br&gt;5Gi · ReadWriteOnce&lt;br&gt;Namespace: dev&lt;/span&gt;"
+          style="shape=mxgraph.kubernetes.pvc2;html=1;pointerEvents=1;dashed=0;fillColor=#fef3c7;strokeColor=#d97706;fontSize=11;shadow=1;"
+          vertex="1" parent="k8s_cluster"><mxGeometry x="180" y="895" width="130" height="85" as="geometry" /></mxCell>
+
+        <!-- PV -->
+        <mxCell id="pv_icon" value="&lt;b&gt;PV&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;Cluster Scoped&lt;br&gt;NFS · 5Gi&lt;br&gt;Retain policy&lt;/span&gt;"
+          style="shape=mxgraph.kubernetes.pv2;html=1;pointerEvents=1;dashed=0;fillColor=#fef3c7;strokeColor=#d97706;fontSize=11;shadow=1;"
+          vertex="1" parent="k8s_cluster"><mxGeometry x="480" y="895" width="130" height="85" as="geometry" /></mxCell>
+
+        <!-- StorageClass -->
+        <mxCell id="sc_icon" value="&lt;b&gt;StorageClass&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;nfs-storage&lt;br&gt;Cluster Scoped&lt;br&gt;Provisioner: NFS&lt;/span&gt;"
+          style="shape=mxgraph.kubernetes.sc2;html=1;pointerEvents=1;dashed=0;fillColor=#fef3c7;strokeColor=#d97706;fontSize=11;shadow=1;"
+          vertex="1" parent="k8s_cluster"><mxGeometry x="780" y="895" width="130" height="85" as="geometry" /></mxCell>
+
+        <!-- ════════ ARGOCD (inside cluster) ════════ -->
+        <mxCell id="argocd_box" value="&lt;b&gt;ArgoCD&lt;/b&gt; (GitOps Controller)&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;Namespace: argocd · Watches: saista-helm-charts repo · Auto-sync · SelfHeal · Prune&lt;/span&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0e7490;strokeColor=#164e63;fontColor=#ffffff;fontSize=12;shadow=1;"
+          vertex="1" parent="k8s_cluster"><mxGeometry x="980" y="770" width="350" height="70" as="geometry" /></mxCell>
+
+        <!-- ════════ CONTROL PLANE (right, outside cluster) ════════ -->
+        <mxCell id="z_cp" value="" style="rounded=1;fillColor=#e0f2fe;strokeColor=#0369a1;opacity=40;pointerEvents=0;" vertex="1" parent="1"><mxGeometry x="1420" y="270" width="450" height="430" as="geometry" /></mxCell>
+        <mxCell id="z_cp_lbl" value="CONTROL PLANE" style="text;html=1;fillColor=none;strokeColor=none;fontStyle=1;fontSize=9;fontColor=#0369a1;align=left;" vertex="1" parent="1"><mxGeometry x="1430" y="274" width="120" height="18" as="geometry" /></mxCell>
+
+        <!-- API Server -->
+        <mxCell id="api_server" value="API Server"
+          style="swimlane;fillColor=#0369a1;strokeColor=#0c4a6e;fontColor=#ffffff;fontSize=12;fontStyle=1;startSize=32;rounded=1;arcSize=6;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="1435" y="295" width="410" height="90" as="geometry" /></mxCell>
+        <mxCell id="api_body" value="&lt;span style=&apos;font-size:10px;line-height:1.6;&apos;&gt;Central control hub · Authenticates · Authorizes&lt;br&gt;Validates · Webhooks · Certificates · Stores state → etcd&lt;br&gt;Kubelet &amp;amp; ArgoCD communicate via API Server&lt;/span&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="api_server"><mxGeometry x="0" y="32" width="410" height="58" as="geometry" /></mxCell>
+
+        <!-- etcd -->
+        <mxCell id="etcd" value="&lt;b&gt;etcd&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;Distributed KV store&lt;br&gt;All cluster state&lt;br&gt;Strongly consistent&lt;/span&gt;"
+          style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#075985;strokeColor=#0c4a6e;fontColor=#ffffff;fontSize=11;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="1435" y="405" width="180" height="100" as="geometry" /></mxCell>
+
+        <!-- Scheduler -->
+        <mxCell id="scheduler" value="&lt;b&gt;Scheduler&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;Filtering phase → Scoring phase&lt;br&gt;Assigns pods to worker nodes&lt;/span&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0c4a6e;strokeColor=#075985;fontColor=#ffffff;fontSize=11;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="1635" y="405" width="200" height="100" as="geometry" /></mxCell>
+
+        <!-- Controller Manager -->
+        <mxCell id="ctrl_mgr" value="&lt;b&gt;Controller Manager&lt;/b&gt;"
+          style="swimlane;fillColor=#1e3a8a;strokeColor=#1e40af;fontColor=#ffffff;fontSize=12;fontStyle=1;startSize=32;rounded=1;arcSize=5;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="1435" y="525" width="410" height="155" as="geometry" /></mxCell>
+        <mxCell id="ctrl_body" value="&lt;span style=&apos;font-size:10px;line-height:1.7;&apos;&gt;• Node Controller — monitors node health&lt;br&gt;• ReplicaSet Controller — maintains replica counts&lt;br&gt;• Endpoints Controller — updates service endpoints&lt;br&gt;• Job Controller — manages batch Jobs (db-migrate)&lt;br&gt;• Deployment Controller — rolling updates&lt;/span&gt;"
+          style="text;html=1;align=left;verticalAlign=top;fillColor=none;strokeColor=none;spacingLeft=8;" vertex="1" parent="ctrl_mgr"><mxGeometry x="0" y="32" width="410" height="123" as="geometry" /></mxCell>
+
+        <!-- ════════ MONITORING ════════ -->
+        <mxCell id="z_mon" value="" style="rounded=1;fillColor=#fdf4ff;strokeColor=#a855f7;opacity=40;pointerEvents=0;" vertex="1" parent="1"><mxGeometry x="1420" y="720" width="450" height="420" as="geometry" /></mxCell>
+        <mxCell id="z_mon_lbl" value="MONITORING &amp; OBSERVABILITY" style="text;html=1;fillColor=none;strokeColor=none;fontStyle=1;fontSize=9;fontColor=#7e22ce;align=left;" vertex="1" parent="1"><mxGeometry x="1430" y="724" width="200" height="18" as="geometry" /></mxCell>
+
+        <!-- Prometheus -->
+        <mxCell id="prometheus" value="Prometheus"
+          style="swimlane;fillColor=#c2410c;strokeColor=#9a3412;fontColor=#ffffff;fontSize=12;fontStyle=1;startSize=32;rounded=1;arcSize=6;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="1435" y="745" width="200" height="110" as="geometry" /></mxCell>
+        <mxCell id="prom_logo" value="" style="shape=mxgraph.logos.prometheus;html=1;pointerEvents=0;" vertex="1" parent="prometheus"><mxGeometry x="8" y="6" width="22" height="22" as="geometry" /></mxCell>
+        <mxCell id="prom_body" value="&lt;span style=&apos;font-size:10px;line-height:1.6;&apos;&gt;Metrics collection&lt;br&gt;Scrapes cAdvisor&lt;br&gt;Scrapes Metrics Server&lt;br&gt;15s scrape interval&lt;/span&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="prometheus"><mxGeometry x="0" y="32" width="200" height="78" as="geometry" /></mxCell>
+
+        <!-- Grafana -->
+        <mxCell id="grafana" value="Grafana"
+          style="swimlane;fillColor=#1a1a2e;strokeColor=#e97316;fontColor=#f97316;fontSize=12;fontStyle=1;startSize=32;rounded=1;arcSize=6;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="1650" y="745" width="200" height="110" as="geometry" /></mxCell>
+        <mxCell id="graf_logo" value="" style="shape=mxgraph.logos.grafana;html=1;pointerEvents=0;" vertex="1" parent="grafana"><mxGeometry x="8" y="6" width="22" height="22" as="geometry" /></mxCell>
+        <mxCell id="graf_body" value="&lt;span style=&apos;font-size:10px;line-height:1.6;&apos;&gt;Dashboards &amp;amp; alerts&lt;br&gt;Datasource: Prometheus&lt;br&gt;CPU · MEM · Pods&lt;br&gt;Custom alerts → Email&lt;/span&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="grafana"><mxGeometry x="0" y="32" width="200" height="78" as="geometry" /></mxCell>
+
+        <!-- Metrics Server -->
+        <mxCell id="metrics_srv" value="&lt;b&gt;Metrics Server&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;kubectl top nodes/pods&lt;br&gt;HPA autoscaling source&lt;br&gt;Cluster resource usage&lt;/span&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4c1d95;strokeColor=#5b21b6;fontColor=#ffffff;fontSize=11;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="1435" y="875" width="200" height="90" as="geometry" /></mxCell>
+
+        <!-- Alert Manager -->
+        <mxCell id="alert_mgr" value="&lt;b&gt;Alert Manager&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;Routes: Grafana alerts&lt;br&gt;Sends Email / Slack&lt;br&gt;On: pod crash · high CPU&lt;/span&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#7f1d1d;strokeColor=#991b1b;fontColor=#ffffff;fontSize=11;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="1650" y="875" width="200" height="90" as="geometry" /></mxCell>
+
+        <!-- CSI Node Plugin -->
+        <mxCell id="csi" value="&lt;b&gt;CSI Node Plugin&lt;/b&gt;&lt;br&gt;&lt;span style=&apos;font-size:10px;&apos;&gt;Mounts NFS volume&lt;br&gt;to MySQL pod&lt;br&gt;Protocol: NFS v4&lt;/span&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4a044e;strokeColor=#701a75;fontColor=#ffffff;fontSize=11;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="1435" y="985" width="200" height="90" as="geometry" /></mxCell>
+
+        <!-- Gmail SMTP external -->
+        <mxCell id="gmail_ext" value="Gmail SMTP"
+          style="swimlane;fillColor=#991b1b;strokeColor=#7f1d1d;fontColor=#ffffff;fontSize=12;fontStyle=1;startSize=32;rounded=1;arcSize=6;shadow=1;"
+          vertex="1" parent="1"><mxGeometry x="1650" y="985" width="200" height="90" as="geometry" /></mxCell>
+        <mxCell id="gmail_ext_logo" value="" style="shape=mxgraph.logos.gmail;html=1;pointerEvents=0;" vertex="1" parent="gmail_ext"><mxGeometry x="8" y="7" width="22" height="18" as="geometry" /></mxCell>
+        <mxCell id="gmail_ext_body" value="&lt;span style=&apos;font-size:10px;&apos;&gt;smtp.gmail.com:587&lt;br&gt;Invoice emails&lt;br&gt;Failure alerts&lt;/span&gt;"
+          style="text;html=1;align=center;verticalAlign=middle;fillColor=none;strokeColor=none;" vertex="1" parent="gmail_ext"><mxGeometry x="0" y="32" width="200" height="58" as="geometry" /></mxCell>
+
+        <!-- ════════ ARROWS ════════ -->
+
+        <!-- Client → DNS -->
+        <mxCell id="ea1" value="&lt;b&gt;HTTPS&lt;/b&gt;&lt;br&gt;saistabakers.com" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#3b82f6;strokeWidth=2;fontSize=10;fontStyle=1;endArrow=block;endFill=1;" edge="1" source="client" target="dns" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- DNS → LB -->
+        <mxCell id="ea2" value="&lt;b&gt;Resolves IP&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#7e22ce;strokeWidth=2;fontSize=10;fontStyle=1;endArrow=block;endFill=1;" edge="1" source="dns" target="lb" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- LB → k8s cluster (Gateway) -->
+        <mxCell id="ea3" value="&lt;b&gt;Routes :80/:443&lt;/b&gt;&lt;br&gt;to Worker Nodes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#7e22ce;strokeWidth=3;fontSize=10;fontStyle=1;endArrow=block;endFill=1;" edge="1" source="lb" target="k8s_cluster" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- NFS → CSI -->
+        <mxCell id="ea4" value="&lt;b&gt;NFS mount&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#d97706;strokeWidth=2;fontSize=10;fontStyle=1;dashed=1;endArrow=block;endFill=1;" edge="1" source="nfs" target="csi" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- GHCR → Worker Nodes (image pull) -->
+        <mxCell id="ea5" value="&lt;b&gt;imagePull: Always&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#6b7280;strokeWidth=1;fontSize=9;dashed=1;endArrow=open;endFill=0;" edge="1" source="ghcr_ext" target="k8s_cluster" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Kubelet → API Server -->
+        <mxCell id="ea6" value="&lt;b&gt;heartbeat&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#0369a1;strokeWidth=1;fontSize=9;dashed=1;endArrow=open;endFill=0;" edge="1" source="kubelet1" target="api_server" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ea7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#0369a1;strokeWidth=1;fontSize=9;dashed=1;endArrow=open;endFill=0;" edge="1" source="kubelet2" target="api_server" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- cAdvisor → Prometheus -->
+        <mxCell id="ea8" value="&lt;b&gt;metrics scrape&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#c2410c;strokeWidth=1;fontSize=9;dashed=1;endArrow=block;endFill=1;" edge="1" source="cadv1" target="prometheus" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ea9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#c2410c;strokeWidth=1;fontSize=9;dashed=1;endArrow=block;endFill=1;" edge="1" source="cadv2" target="prometheus" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Prometheus → Grafana -->
+        <mxCell id="ea10" value="&lt;b&gt;datasource&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#f97316;strokeWidth=2;fontSize=10;fontStyle=1;endArrow=block;endFill=1;" edge="1" source="prometheus" target="grafana" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Grafana → AlertManager -->
+        <mxCell id="ea11" value="&lt;b&gt;fire alerts&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#dc2626;strokeWidth=2;fontSize=10;fontStyle=1;endArrow=block;endFill=1;" edge="1" source="grafana" target="alert_mgr" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- AlertManager → Gmail -->
+        <mxCell id="ea12" value="&lt;b&gt;alert emails&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#dc2626;strokeWidth=2;fontSize=10;fontStyle=1;endArrow=block;endFill=1;" edge="1" source="alert_mgr" target="gmail_ext" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ArgoCD → API Server -->
+        <mxCell id="ea13" value="&lt;b&gt;kubectl apply&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#0891b2;strokeWidth=2;fontSize=10;fontStyle=1;endArrow=block;endFill=1;" edge="1" source="argocd_box" target="api_server" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- CSI → MySQL pod (mount) -->
+        <mxCell id="ea14" value="&lt;b&gt;mounts /var/lib/mysql&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#f59e0b;strokeWidth=2;fontSize=10;fontStyle=1;endArrow=block;endFill=1;" edge="1" source="csi" target="mysql_pod" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

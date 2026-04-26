@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: saista-bakers-prod
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/SaistaBakers/saista-helm-charts
+    targetRevision: main                 # prod watches the main branch
+    path: helm
+
+    helm:
+      releaseName: saista-bakers-prod
+      valueFiles:
+        - values.yaml                    # base values (always applied)
+        - values-prod.yaml               # prod overrides: namespace=prod, imageTag=stable, 2 replicas
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prod
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true             # creates the `prod` namespace if it doesn't exist
