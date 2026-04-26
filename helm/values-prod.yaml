@@ -1,6 +1,6 @@
 global:
   namespace: prod
-  imageTag: stable
+  imageTag: latest
 
 mysql:
   gateway:
