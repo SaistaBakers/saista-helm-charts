@@ -8,15 +8,15 @@ spec:
 
   source:
     repoURL: https://github.com/SaistaBakers/saista-helm-charts
-    targetRevision: main                   # branch / tag / commit SHA
-    path: helm                             # path to the umbrella chart inside the repo
+    targetRevision: main                   
+    path: helm                             
 
     helm:
       releaseName: saista-bakers
       valueFiles:
         - values.yaml                      # base values (always applied)
-        # - values-dev.yaml               # uncomment for dev overrides
-        # - values-prod.yaml              # uncomment for prod overrides
+        - values-dev.yaml                  # uncomment for dev overrides
+        # - values-prod.yaml               # uncomment for prod overrides
 
   destination:
     server: https://kubernetes.default.svc # in-cluster; change for remote clusters
